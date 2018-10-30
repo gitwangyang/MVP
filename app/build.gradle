@@ -1,0 +1,162 @@
+apply plugin: 'com.android.application'
+
+//当前beta版本号
+ext.build_number = "beta1";
+//显示的时间格式，形如20170710
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getDefault());
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi', 'x86'
+        }
+        //语言类型
+        resConfigs "en", "fr"
+    }
+    //引入jar和aar三方包的地址
+    repositories {
+        flatDir {
+            dirs 'libs', 'modules'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('/release.jks')
+            storePassword '123456'
+            keyAlias 'dotawang'
+            keyPassword '123456'
+        }
+        debug {
+            storeFile file('/release.jks')
+            storePassword '123456'
+            keyAlias 'dotawang'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+    dataBinding {
+        enabled true
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:26.1.0'
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    // 打包命名
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 显示app名称+当前版本号
+                def fileName = "汪洋-V${variant.versionName}"
+                // 如果有渠道，显示渠道名""
+                if (variant.flavorName != "") {
+                    fileName = fileName + "-${variant.flavorName}"
+                }
+                // 加入打包时间
+                fileName = fileName + "-${releaseTime()}"
+                // 如果是debug版本，加入beta版本号
+                if ('debug'.equals(variant.buildType.name)) {
+                    fileName = fileName + "-${build_number}.apk"
+                } else {
+                    // 如果是release版本，直接显示
+                    fileName = fileName + "-release.apk"
+                }
+                outputFileName = fileName
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.support["constraint-layout"]
+    testApi 'junit:junit:4.12'
+    androidTestImplementation rootProject.ext.support["runner"]
+    androidTestImplementation rootProject.ext.support["espresso-core"]
+//    api(name: 'banner-release', ext: 'aar')
+    //support
+    api rootProject.ext.support["support-annotations"]
+    api rootProject.ext.support["support-v4"]
+    api rootProject.ext.support["appcompat-v7"]
+    api rootProject.ext.support["design"]
+    api rootProject.ext.support["support-v13"]
+    api rootProject.ext.support["support-fragment"]
+    api rootProject.ext.support["animated-vector-drawable"]
+    api rootProject.ext.support["cardview-v7"]
+    //rxjava
+    api rootProject.ext.dependencies.rxjava
+    api rootProject.ext.dependencies.rxandroid
+    //rx管理View的生命周期
+    api rootProject.ext.dependencies.rxlifecycle
+    api rootProject.ext.dependencies["rxlifecycle-components"]
+    //rxbinding
+    api rootProject.ext.dependencies.rxbinding
+    //rx权限请求
+    api rootProject.ext.dependencies.rxpermissions
+    //network
+    api rootProject.ext.dependencies.okhttp
+    api rootProject.ext.dependencies.retrofit
+    api rootProject.ext.dependencies["converter-gson"]
+    api rootProject.ext.dependencies["adapter-rxjava"]
+    //json解析
+    api rootProject.ext.dependencies.gson
+    //material-dialogs
+    api rootProject.ext.dependencies["material-dialogs-core"]
+    api rootProject.ext.dependencies["material-dialogs-commons"]
+    //glide图片加载库
+    api rootProject.ext.dependencies.glide
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+    //recyclerview的databinding套装
+    api rootProject.ext.dependencies.bindingcollectionadapter
+    api rootProject.ext.dependencies["bindingcollectionadapter-recyclerview"]
+    //Google LiveData和ViewModel组件
+    //api rootProject.ext.dependencies["lifecycle-extensions"]
+    //eventbus广播
+    api rootProject.ext.dependencies.eventbus
+    //butterknife插件
+    api rootProject.ext.dependencies.butterknife
+//    //multidex
+//    api rootProject.ext.dependencies.multidex
+    //PageBottomTabLayout底部导航栏组件
+    api rootProject.ext.dependencies.pagebottomtablayout
+    //tkrefreshlayout下拉刷新，上拉加载
+    api rootProject.ext.dependencies.tkrefreshlayout
+}
