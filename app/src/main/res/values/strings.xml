@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MVP</string>
+    <string name="fish_app">再按一次返回键退出程序</string>
+    <string name="button_cancel">取消</string>
+    <string name="button_confirm">确定</string>
+    <string name="error_msg">请求失败，请重试！</string>
 </resources>
