@@ -1,4 +1,4 @@
-package com.dotawang.mvp.view;
+package com.dotawang.mvp.iview;
 
 import com.dotawang.mvp.base.IBaseView;
 
@@ -6,7 +6,7 @@ import com.dotawang.mvp.base.IBaseView;
  *
  * Created by Dota.Wang on 2018/10/31.
  */
-public interface MainView extends IBaseView {
+public interface IMainView extends IBaseView {
     /**
      * 当数据请求成功后，调用此接口显示数据
      * @param data

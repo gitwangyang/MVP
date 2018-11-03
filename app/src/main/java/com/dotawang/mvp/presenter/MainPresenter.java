@@ -4,13 +4,13 @@ import com.dotawang.mvp.base.BasePresenter;
 import com.dotawang.mvp.base.DataModel;
 import com.dotawang.mvp.constant.ModelType;
 import com.dotawang.mvp.net.IRequestCallback;
-import com.dotawang.mvp.view.MainView;
+import com.dotawang.mvp.iview.IMainView;
 
 /**
  * Created by Dota.Wang on 2018/10/31.
  */
 
-public class MainPresenter extends BasePresenter<MainView> {
+public class MainPresenter extends BasePresenter<IMainView> {
 
     /**
      * 获取网络数据
