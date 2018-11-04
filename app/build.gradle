@@ -124,6 +124,9 @@ dependencies {
     //rxjava
     api rootProject.ext.dependencies.rxjava
     api rootProject.ext.dependencies.rxandroid
+    //rxjava2
+    api rootProject.ext.dependencies.rxjava2
+    api rootProject.ext.dependencies.rxandroid2
     //rx管理View的生命周期
     api rootProject.ext.dependencies.rxlifecycle
     api rootProject.ext.dependencies["rxlifecycle-components"]
@@ -153,6 +156,7 @@ dependencies {
     api rootProject.ext.dependencies.eventbus
     //butterknife插件
     api rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknife1
 //    //multidex
 //    api rootProject.ext.dependencies.multidex
     //PageBottomTabLayout底部导航栏组件
@@ -160,7 +164,13 @@ dependencies {
     //tkrefreshlayout下拉刷新，上拉加载
     api rootProject.ext.dependencies.tkrefreshlayout
     //内存泄漏
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    debugApi rootProject.ext.dependencies.leakcanary1
+    releaseApi rootProject.ext.dependencies.leakcanary
+    testApi rootProject.ext.dependencies.leakcanary
+    //鸿翔的okhttputils   :https://github.com/hongyangAndroid/okhttputils
+    api rootProject.ext.dependencies.okhttputils
+    // 适配
+    compile rootProject.ext.dependencies.autolayout
+    //状态栏
+    compile rootProject.ext.dependencies.systembartint
 }

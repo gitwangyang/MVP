@@ -9,19 +9,48 @@ import android.support.multidex.MultiDex;
 import com.dotawang.mvp.utils.AppManager;
 import com.dotawang.mvp.utils.KLog;
 import com.dotawang.mvp.utils.Utils;
+import com.dotawang.mvp.view.MainActivity;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 
 /**
- * Created by Dota.Wang on 2018/10/30.
+ *  Created by Dota.Wang on 2018/10/30.
+ * #                                                   #
+ * #                       _oo0oo_                     #
+ * #                      o8888888o                    #
+ * #                      88" . "88                    #
+ * #                      (| -_- |)                    #
+ * #                      0\  =  /0                    #
+ * #                    ___/`---'\___                  #
+ * #                  .' \\|     |# '.                 #
+ * #                 / \\|||  :  |||# \                #
+ * #                / _||||| -:- |||||- \              #
+ * #               |   | \\\  -  #/ |   |              #
+ * #               | \_|  ''\---/''  |_/ |             #
+ * #               \  .-\__  '-'  ___/-. /             #
+ * #             ___'. .'  /--.--\  `. .'___           #
+ * #          ."" '<  `.___\_<|>_/___.' >' "".         #
+ * #         | | :  `- \`.;`\ _ /`;.`/ - ` : | |       #
+ * #         \  \ `_.   \_ __\ /__ _/   .-` /  /       #
+ * #     =====`-.____`.___ \_____/___.-`___.-'=====    #
+ * #                       `=---='                     #
+ * #     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   #
+ * #                                                   #
+ * #               佛祖保佑         永无BUG             #
+ * #                                                   #
  */
 
 public class AppApplication extends Application {
     private static AppApplication instance;
+    private List<Activity> activityList = new LinkedList<Activity>();
+    private static final String TAG = "MyApplication";
 
     @Override
     public void onCreate() {
@@ -36,6 +65,7 @@ public class AppApplication extends Application {
         //初始化全局异常崩溃
 //        initCrash();
         initLeakCanary();
+        initOkhttp();
     }
 
     /**
@@ -108,5 +138,40 @@ public class AppApplication extends Application {
      */
     protected RefWatcher installLeakCanary() {
         return RefWatcher.DISABLED;
+    }
+
+    private void initOkhttp() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+
+        OkHttpUtils.initClient(okHttpClient);
+    }
+
+    // 遍历所有Activity并finish
+    public void exitNoMain() {
+        for (Activity activity : activityList) {
+            if (activity instanceof MainActivity) {
+
+            }else {
+                activity.finish();
+            }
+        }
+    }
+
+    // 添加Activity到容器中
+    public void addActivity(Activity activity) {
+        if (null!= activity){
+            activityList.add(activity);
+            KLog.v(TAG,"添加数据了");
+        }
+    }
+
+    // 添加Activity到容器中
+    public void clearActivity() {
+        activityList.clear();
     }
 }

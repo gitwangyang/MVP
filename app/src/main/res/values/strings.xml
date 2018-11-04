@@ -4,4 +4,6 @@
     <string name="button_cancel">取消</string>
     <string name="button_confirm">确定</string>
     <string name="error_msg">请求失败，请重试！</string>
+    <string name="loading_title">努力加载中</string>
+
 </resources>
