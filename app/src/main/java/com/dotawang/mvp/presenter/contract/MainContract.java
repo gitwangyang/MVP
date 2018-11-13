@@ -2,6 +2,9 @@ package com.dotawang.mvp.presenter.contract;
 
 import com.dotawang.mvp.base.IBaseView;
 import com.dotawang.mvp.bean.BrandBean;
+import com.dotawang.mvp.bean.HomeBanner;
+import com.dotawang.mvp.bean.HomePost;
+import com.dotawang.mvp.bean.HomeSpecial;
 
 import java.util.List;
 import java.util.Map;
@@ -15,13 +18,13 @@ public interface MainContract {
     interface IMainView extends IBaseView<List<BrandBean>> {
 
 
-//        public void onPostSuccess(List<HomePost> homePosts);
-//
-//        public void onBannerSuccess(List<HomeBanner> homeBanner);
-//
-//        public void onSpecialSuccess(List<HomeSpecial> homeSpecial);
-//
-//        public void onSpecialError(String Message,int errorTag);
+        public void onPostSuccess(List<HomePost> homePosts);
+
+        public void onBannerSuccess(List<HomeBanner> homeBanner);
+
+        public void onSpecialSuccess(List<HomeSpecial> homeSpecial);
+
+        public void onSpecialError(String Message,int errorTag);
 
     }
 
@@ -29,9 +32,9 @@ public interface MainContract {
         /**
          *  首页Banner界面
          * */
-//        public void getHomeBanner();
-//        public void getBrand();
-//        public void getPost();
-//        public void getSpecial(Map<String, String> map);
+        public void getHomeBanner();
+        public void getBrand();
+        public void getPost();
+        public void getSpecial(Map<String, String> map);
     }
 }

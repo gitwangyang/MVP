@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends BaseActivity<MainPresenter, List<BrandBean>> implements MainContract.IMainView {
+public class MainActivity extends BaseActivity<MainPresenter, List<BrandBean>> {
 
     @BindView(R.id.tv)
     TextView tv;
